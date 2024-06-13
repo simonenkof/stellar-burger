@@ -1,4 +1,5 @@
-import { ConstructorPage } from '@pages';
+import { RouterProvider } from 'react-router-dom';
+import { router } from '../../router';
 import '../../index.css';
 import styles from './app.module.css';
 
@@ -7,7 +8,7 @@ import { AppHeader } from '@components';
 const App = () => (
   <div className={styles.app}>
     <AppHeader />
-    <ConstructorPage />
+    <RouterProvider router={router} />
   </div>
 );
 
