@@ -5,24 +5,49 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api';
 
 export interface BurgerConstructorSlice {
-  ingredients: TIngredient[];
+  constructorItems: {
+    bun: TIngredient | null;
+    ingredients: TIngredient[];
+  };
+  menuIngredients: TIngredient[];
   isLoading: boolean;
 }
 
 const initialState: BurgerConstructorSlice = {
-  ingredients: [],
+  constructorItems: {
+    bun: null,
+    ingredients: []
+  },
+  menuIngredients: [],
   isLoading: false
 };
 
-export const getIngredients = createAsyncThunk('ingredients/get', async () => {
-  const response = await getIngredientsApi();
-  return response;
-});
+export const getIngredients = createAsyncThunk(
+  'burgerConstructor/get',
+  async () => {
+    const response = await getIngredientsApi();
+    return response;
+  }
+);
 
 export const BurgerConstructorSlice = createSlice({
-  name: 'ingredients',
+  name: 'burgerConstructor',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    addIngredient: (state, action: PayloadAction<TIngredient>) => {
+      if (action.payload.type === 'bun') {
+        state.constructorItems.bun = action.payload;
+      } else {
+        state.constructorItems.ingredients = [
+          ...state.constructorItems.ingredients,
+          action.payload
+        ];
+      }
+    },
+    addBun: (state, action: PayloadAction<TIngredient>) => {
+      state.constructorItems.bun = action.payload;
+    }
+  },
   extraReducers(builder) {
     builder.addCase(getIngredients.pending, (state) => {
       state.isLoading = true;
@@ -30,7 +55,7 @@ export const BurgerConstructorSlice = createSlice({
     builder.addCase(
       getIngredients.fulfilled,
       (state, action: PayloadAction<TIngredient[]>) => {
-        state.ingredients = action.payload;
+        state.menuIngredients = action.payload;
         state.isLoading = false;
       }
     );
@@ -39,10 +64,18 @@ export const BurgerConstructorSlice = createSlice({
     });
   },
   selectors: {
-    selectIngredinets: (ingredients) => ingredients.ingredients,
-    selectLoadingState: (ingredients) => ingredients.isLoading
+    selectMenuIngredinets: (burgerConstructor) =>
+      burgerConstructor.menuIngredients,
+    selectLoadingState: (burgerConstructor) => burgerConstructor.isLoading,
+    selectConstructorItems: (burgerConstructor) =>
+      burgerConstructor.constructorItems
   }
 });
 
-export const { selectIngredinets, selectLoadingState } =
-  BurgerConstructorSlice.selectors;
+export const { addIngredient } = BurgerConstructorSlice.actions;
+
+export const {
+  selectMenuIngredinets,
+  selectLoadingState,
+  selectConstructorItems
+} = BurgerConstructorSlice.selectors;
