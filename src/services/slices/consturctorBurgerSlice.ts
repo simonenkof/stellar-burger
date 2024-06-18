@@ -4,12 +4,12 @@ import { TIngredient } from '@utils-types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api';
 
-export interface IngredientsSliceState {
+export interface BurgerConstructorSlice {
   ingredients: TIngredient[];
   isLoading: boolean;
 }
 
-const initialState: IngredientsSliceState = {
+const initialState: BurgerConstructorSlice = {
   ingredients: [],
   isLoading: false
 };
@@ -19,7 +19,7 @@ export const getIngredients = createAsyncThunk('ingredients/get', async () => {
   return response;
 });
 
-export const IngredientsSlice = createSlice({
+export const BurgerConstructorSlice = createSlice({
   name: 'ingredients',
   initialState: initialState,
   reducers: {},
@@ -45,4 +45,4 @@ export const IngredientsSlice = createSlice({
 });
 
 export const { selectIngredinets, selectLoadingState } =
-  IngredientsSlice.selectors;
+  BurgerConstructorSlice.selectors;

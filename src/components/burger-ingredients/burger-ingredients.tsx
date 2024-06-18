@@ -5,7 +5,7 @@ import {
   getIngredients,
   selectIngredinets,
   selectLoadingState
-} from '../../services/slices/ingredientsSlice';
+} from '../../services/slices/consturctorBurgerSlice';
 
 import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
