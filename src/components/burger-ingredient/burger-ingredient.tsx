@@ -6,22 +6,20 @@ import { TBurgerIngredientProps } from './type';
 import { useDispatch } from '../../services/store';
 import { addIngredient } from '../../services/slices/consturctorBurgerSlice';
 
-export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
-  ({ ingredient, count }) => {
-    const dispatch = useDispatch();
-    const location = useLocation();
+export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(({ ingredient, count }) => {
+  const dispatch = useDispatch();
+  const location = useLocation();
 
-    const handleAdd = () => {
-      dispatch(addIngredient(ingredient));
-    };
+  const handleAdd = () => {
+    dispatch(addIngredient(ingredient));
+  };
 
-    return (
-      <BurgerIngredientUI
-        ingredient={ingredient}
-        count={count}
-        locationState={{ background: location }}
-        handleAdd={handleAdd}
-      />
-    );
-  }
-);
+  return (
+    <BurgerIngredientUI
+      ingredient={ingredient}
+      count={count}
+      locationState={{ background: location }}
+      handleAdd={handleAdd}
+    />
+  );
+});
