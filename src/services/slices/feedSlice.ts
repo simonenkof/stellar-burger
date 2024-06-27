@@ -33,7 +33,6 @@ export const FeedSlice = createSlice({
     // });
   },
   selectors: {
-    // selectMenuIngredinets: (burgerConstructor) => burgerConstructor.menuIngredients,
     selectOrders: (feed) => feed.orders
   }
 });
