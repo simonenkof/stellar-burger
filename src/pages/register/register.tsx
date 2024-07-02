@@ -16,7 +16,7 @@ export const Register: FC = () => {
     e.preventDefault();
 
     registerUserApi({ name: userName, email: email, password: password }).then((data) => {
-      dispatch(setUser({ name: data.user.name, email: data.user.email }));
+      dispatch(setUser({ name: data.user.name, email: data.user.email, loggedIn: true }));
       navigation('/');
     });
   };
