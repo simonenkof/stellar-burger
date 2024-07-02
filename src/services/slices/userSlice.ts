@@ -5,13 +5,15 @@ export interface UserSlice {
   userData: UserData;
 }
 
-type UserData = {
+export type UserData = {
+  loggedIn: boolean;
   name: string;
   email: string;
 };
 
 const initialState: UserSlice = {
   userData: {
+    loggedIn: false,
     name: '',
     email: ''
   }
