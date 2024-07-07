@@ -4,7 +4,7 @@ import { ProfileMenuUI } from '@ui';
 import { logoutApi } from '@api';
 import { deleteCookie } from '../../../src/utils/cookie';
 import { useDispatch } from '../../../src/services/store';
-import { setUser } from '../../../src/services/slices/userSlice';
+import { logoutUser } from '../../../src/services/slices/userSlice';
 
 export const ProfileMenu: FC = () => {
   const { pathname } = useLocation();
@@ -16,7 +16,7 @@ export const ProfileMenu: FC = () => {
       if (res.success) {
         deleteCookie('accessToken');
         localStorage.removeItem('refreshToken');
-        dispatch(setUser({ name: 'Личный кабинет', email: '' }));
+        dispatch(logoutUser());
         navigate('/');
       }
     });
