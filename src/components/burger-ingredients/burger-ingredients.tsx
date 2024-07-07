@@ -1,13 +1,12 @@
 import { useState, useRef, useEffect, FC } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useDispatch, useSelector } from '../../services/store';
-import { getIngredients, selectMenuIngredinets } from '../../services/slices/consturctorBurgerSlice';
+import { useSelector } from '../../services/store';
+import { selectMenuIngredinets } from '../../services/slices/consturctorBurgerSlice';
 
 import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 
 export const BurgerIngredients: FC = () => {
-  const dispatch = useDispatch();
   const ingredients = useSelector(selectMenuIngredinets);
 
   const buns = ingredients.filter((ingridient) => ingridient.type === 'bun');
@@ -32,8 +31,6 @@ export const BurgerIngredients: FC = () => {
   });
 
   useEffect(() => {
-    dispatch(getIngredients());
-
     if (inViewBuns) {
       setCurrentTab('bun');
     } else if (inViewSauces) {
@@ -41,7 +38,7 @@ export const BurgerIngredients: FC = () => {
     } else if (inViewFilling) {
       setCurrentTab('main');
     }
-  }, [dispatch, inViewBuns, inViewFilling, inViewSauces]);
+  }, [inViewBuns, inViewFilling, inViewSauces]);
 
   const onTabClick = (tab: string) => {
     setCurrentTab(tab as TTabMode);

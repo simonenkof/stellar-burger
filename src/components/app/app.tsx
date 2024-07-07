@@ -19,12 +19,14 @@ import { useEffect } from 'react';
 import { useDispatch } from '../../../src/services/store';
 import { getUser } from '../../../src/services/slices/userSlice';
 import { getCookie } from '../../../src/utils/cookie';
+import { getIngredients } from '../../../src/services/slices/consturctorBurgerSlice';
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     getCookie('accessToken') && dispatch(getUser());
+    dispatch(getIngredients());
   }, [dispatch]);
 
   return (
