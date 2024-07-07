@@ -8,7 +8,8 @@ export const ProtectedRoute = ({ children, onlyUnAuth }: ProtectedRouteProps) =>
   const location = useLocation();
 
   if (onlyUnAuth && user.isAuth) {
-    const back = location.state.from || { pathname: '/' };
+    const back = location.state?.from || { pathname: '/' };
+
     return <Navigate to={back} replace />;
   }
 

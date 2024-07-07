@@ -1,9 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import '../../index.css';
 import styles from './app.module.css';
-import { useDispatch } from '../../../src/services/store';
-import { getUser } from '../../../src/services/slices/userSlice';
-
 import { AppHeader } from '@components';
 import { ConstructorPage } from '../../pages/constructor-page';
 import { Feed } from '../../pages/feed';
@@ -19,12 +16,15 @@ import { IngredientDetails } from '../../components/ingredient-details';
 import { Modal } from '../../components/modal';
 import { ProtectedRoute } from '../../components/protected-route';
 import { useEffect } from 'react';
+import { useDispatch } from '../../../src/services/store';
+import { getUser } from '../../../src/services/slices/userSlice';
+import { getCookie } from '../../../src/utils/cookie';
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUser());
+    getCookie('accessToken') && dispatch(getUser());
   }, [dispatch]);
 
   return (
