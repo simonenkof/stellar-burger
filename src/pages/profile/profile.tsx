@@ -9,20 +9,21 @@ export const Profile: FC = () => {
   const user = useSelector(selectCurrentUser);
 
   const [formValue, setFormValue] = useState({
-    name: user.name,
-    email: user.email,
+    name: user.userData.name,
+    email: user.userData.email,
     password: ''
   });
 
   useEffect(() => {
     setFormValue((prevState) => ({
       ...prevState,
-      name: user?.name || '',
-      email: user?.email || ''
+      name: user.userData?.name || '',
+      email: user.userData?.email || ''
     }));
   }, [user]);
 
-  const isFormChanged = formValue.name !== user?.name || formValue.email !== user?.email || !!formValue.password;
+  const isFormChanged =
+    formValue.name !== user.userData?.name || formValue.email !== user.userData?.email || !!formValue.password;
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -34,15 +35,15 @@ export const Profile: FC = () => {
     };
 
     updateUserApi(updatedUser).then(() => {
-      dispatch(setUser({ name: formValue.name, email: formValue.email, loggedIn: true }));
+      dispatch(setUser({ name: formValue.name, email: formValue.email }));
     });
   };
 
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
     setFormValue({
-      name: user.name,
-      email: user.email,
+      name: user.userData.name,
+      email: user.userData.email,
       password: ''
     });
   };
