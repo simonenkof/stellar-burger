@@ -12,7 +12,7 @@ export const Feed: FC = () => {
     dispatch(getOrders());
   }, [dispatch]);
 
-  if (!orders.length) {
+  if (orders && !orders.length) {
     return <Preloader />;
   }
 
