@@ -33,6 +33,8 @@ export const FeedSlice = createSlice({
     });
     builder.addCase(getOrders.fulfilled, (state, action: PayloadAction<TFeedsResponse>) => {
       state.orders = action.payload.orders;
+      state.total = action.payload.total;
+      state.totalToday = action.payload.totalToday;
       state.isLoading = false;
     });
     builder.addCase(getOrders.rejected, (state) => {
@@ -40,10 +42,11 @@ export const FeedSlice = createSlice({
     });
   },
   selectors: {
-    selectOrders: (feed) => feed.orders
+    selectOrders: (feed) => feed.orders,
+    selectFeed: (feed) => feed
   }
 });
 
 export const {} = FeedSlice.actions;
 
-export const { selectOrders } = FeedSlice.selectors;
+export const { selectOrders, selectFeed } = FeedSlice.selectors;

@@ -8,13 +8,17 @@ export const Feed: FC = () => {
   const dispatch = useDispatch();
   const orders = useSelector(selectOrders);
 
-  useEffect(() => {
+  const updateFeed = () => {
     dispatch(getOrders());
+  };
+
+  useEffect(() => {
+    updateFeed();
   }, [dispatch]);
 
   if (orders && !orders.length) {
     return <Preloader />;
   }
 
-  <FeedUI orders={orders} handleGetFeeds={() => {}} />;
+  return <FeedUI orders={orders} handleGetFeeds={updateFeed} />;
 };
