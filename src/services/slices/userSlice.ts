@@ -1,23 +1,30 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { getUserApi } from '@api';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { TUser } from '@utils-types';
 
 export interface UserSlice {
+  isAuth: boolean;
   userData: UserData;
 }
 
 export type UserData = {
-  loggedIn: boolean;
   name: string;
   email: string;
 };
 
 const initialState: UserSlice = {
+  isAuth: false,
   userData: {
-    loggedIn: false,
     name: '',
     email: ''
   }
 };
+
+export const getUser = createAsyncThunk('user/get', async () => {
+  const response = await getUserApi();
+  return response;
+});
 
 export const UserSlice = createSlice({
   name: 'user',
@@ -27,8 +34,19 @@ export const UserSlice = createSlice({
       state.userData = action.payload;
     }
   },
+  // TOOD: убрать any
+  extraReducers(builder) {
+    builder
+      .addCase(getUser.fulfilled, (state, action: PayloadAction<any>) => {
+        state.userData = action.payload;
+        state.isAuth = true;
+      })
+      .addCase(getUser.rejected, (state) => {
+        state.isAuth = false;
+      });
+  },
   selectors: {
-    selectCurrentUser: (user) => user.userData
+    selectCurrentUser: (user) => user
   }
 });
 

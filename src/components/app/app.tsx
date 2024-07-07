@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import '../../index.css';
 import styles from './app.module.css';
-import { useSelector } from '../../../src/services/store';
-import { selectCurrentUser } from '../../../src/services/slices/userSlice';
+import { useDispatch } from '../../../src/services/store';
+import { getUser } from '../../../src/services/slices/userSlice';
 
 import { AppHeader } from '@components';
 import { ConstructorPage } from '../../pages/constructor-page';
@@ -18,9 +18,15 @@ import { OrderInfo } from '../../components/order-info';
 import { IngredientDetails } from '../../components/ingredient-details';
 import { Modal } from '../../components/modal';
 import { ProtectedRoute } from '../../components/protected-route';
+import { useEffect } from 'react';
 
 const App = () => {
-  const user = useSelector(selectCurrentUser);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
+
   return (
     <Router>
       <div className={styles.app}>
@@ -32,7 +38,7 @@ const App = () => {
           <Route
             path='/login'
             element={
-              <ProtectedRoute redirect='/profile' isAuth={!user.loggedIn}>
+              <ProtectedRoute onlyUnAuth>
                 <Login />
               </ProtectedRoute>
             }
@@ -40,7 +46,7 @@ const App = () => {
           <Route
             path='/register'
             element={
-              <ProtectedRoute redirect='/profile' isAuth={!user.loggedIn}>
+              <ProtectedRoute onlyUnAuth>
                 <Register />
               </ProtectedRoute>
             }
@@ -48,7 +54,7 @@ const App = () => {
           <Route
             path='/forgot-password'
             element={
-              <ProtectedRoute redirect='/profile' isAuth={!user.loggedIn}>
+              <ProtectedRoute onlyUnAuth>
                 <ForgotPassword />
               </ProtectedRoute>
             }
@@ -56,7 +62,7 @@ const App = () => {
           <Route
             path='/reset-password'
             element={
-              <ProtectedRoute redirect='/profile' isAuth={!user.loggedIn}>
+              <ProtectedRoute onlyUnAuth>
                 <ResetPassword />
               </ProtectedRoute>
             }
@@ -64,7 +70,7 @@ const App = () => {
           <Route
             path='/profile'
             element={
-              <ProtectedRoute redirect='/login' isAuth={user.loggedIn}>
+              <ProtectedRoute>
                 <Profile />
               </ProtectedRoute>
             }
@@ -72,7 +78,7 @@ const App = () => {
           <Route
             path='/profile/orders'
             element={
-              <ProtectedRoute redirect='/login' isAuth={user.loggedIn}>
+              <ProtectedRoute>
                 <ProfileOrders />
               </ProtectedRoute>
             }
@@ -96,7 +102,7 @@ const App = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <ProtectedRoute redirect='/' isAuth={user.loggedIn}>
+              <ProtectedRoute>
                 <Modal title='Информация о заказе' onClose={() => {}}>
                   <OrderInfo />
                 </Modal>

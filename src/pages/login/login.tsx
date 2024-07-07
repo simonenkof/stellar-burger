@@ -18,7 +18,7 @@ export const Login: FC = () => {
     loginUserApi({ email: email, password: password }).then((data) => {
       setCookie('accessToken', data.accessToken);
       localStorage.setItem('refreshToken', data.refreshToken);
-      dispatch(setUser({ name: data.user.name, email: data.user.email, loggedIn: true }));
+      dispatch(setUser({ name: data.user.name, email: data.user.email }));
       navigation('/');
     });
   };

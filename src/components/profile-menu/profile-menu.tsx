@@ -16,7 +16,7 @@ export const ProfileMenu: FC = () => {
       if (res.success) {
         deleteCookie('accessToken');
         localStorage.removeItem('refreshToken');
-        dispatch(setUser({ name: 'Личный кабинет', email: '', loggedIn: false }));
+        dispatch(setUser({ name: 'Личный кабинет', email: '' }));
         navigate('/');
       }
     });
