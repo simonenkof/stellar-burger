@@ -35,6 +35,7 @@ export const Profile: FC = () => {
     };
 
     updateUserApi(updatedUser).then(() => {
+      formValue.password = '';
       dispatch(setUser({ name: formValue.name, email: formValue.email }));
     });
   };
