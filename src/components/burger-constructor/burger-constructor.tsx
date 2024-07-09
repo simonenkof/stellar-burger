@@ -16,7 +16,10 @@ export const BurgerConstructor: FC = () => {
   const orderModalData = useSelector(selectOrderData);
 
   const onOrderClick = () => {
-    if (!user.isAuth) navigate('/login');
+    if (!user.isAuth) {
+      navigate('/login');
+      return;
+    }
 
     if (!constructorItems.bun || orderRequest) return;
 
