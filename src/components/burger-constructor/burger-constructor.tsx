@@ -1,11 +1,11 @@
 import { FC, useMemo } from 'react';
 import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
-import { selectConstructorItems } from '../../services/slices/consturctorBurgerSlice';
-import { selectCurrentUser } from '../../../src/services/slices/userSlice';
+import { selectConstructorItems, clearIngredints } from '../../services/slices/consturctorBurgerSlice';
+import { selectCurrentUser } from '../../services/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { orderBurgerApi } from '@api';
-import { setOrderData, setRequested, selectOrderData, selectRequested } from '../../../src/services/slices/orderSlice';
+import { setOrderData, setRequested, selectOrderData, selectRequested } from '../../services/slices/orderSlice';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
@@ -31,8 +31,10 @@ export const BurgerConstructor: FC = () => {
     orderBurgerApi(ingredients).then((res) => {
       dispatch(setOrderData(res.order));
       dispatch(setRequested(false));
+      dispatch(clearIngredints());
     });
   };
+
   const closeOrderModal = () => {
     dispatch(setOrderData(null));
   };

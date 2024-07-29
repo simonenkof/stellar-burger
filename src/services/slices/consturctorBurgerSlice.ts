@@ -45,6 +45,11 @@ export const BurgerConstructorSlice = createSlice({
       })
     },
 
+    clearIngredints: (state) => {
+      state.constructorItems.bun = null;
+      state.constructorItems.ingredients = [];
+    },
+
     moveUp: (state, action: PayloadAction<TConstructorIngredient>) => {
       const index = state.constructorItems.ingredients.findIndex((i) => i.id === action.payload.id);
 
@@ -86,6 +91,6 @@ export const BurgerConstructorSlice = createSlice({
   }
 });
 
-export const { addIngredient, moveUp, moveDown, removeIngredient } = BurgerConstructorSlice.actions;
+export const { addIngredient, moveUp, moveDown, removeIngredient, clearIngredints } = BurgerConstructorSlice.actions;
 
 export const { selectMenuIngredinets, selectLoadingState, selectConstructorItems } = BurgerConstructorSlice.selectors;
