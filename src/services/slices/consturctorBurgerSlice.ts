@@ -85,7 +85,7 @@ export const BurgerConstructorSlice = createSlice({
     });
   },
   selectors: {
-    selectMenuIngredinets: (burgerConstructor) => burgerConstructor.menuIngredients,
+    selectMenuIngredients: (burgerConstructor) => burgerConstructor.menuIngredients,
     selectLoadingState: (burgerConstructor) => burgerConstructor.isLoading,
     selectConstructorItems: (burgerConstructor) => burgerConstructor.constructorItems
   }
@@ -93,4 +93,4 @@ export const BurgerConstructorSlice = createSlice({
 
 export const { addIngredient, moveUp, moveDown, removeIngredient, clearIngredints } = BurgerConstructorSlice.actions;
 
-export const { selectMenuIngredinets, selectLoadingState, selectConstructorItems } = BurgerConstructorSlice.selectors;
+export const { selectMenuIngredients, selectLoadingState, selectConstructorItems } = BurgerConstructorSlice.selectors;

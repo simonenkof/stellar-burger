@@ -88,7 +88,12 @@ const App = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title='Информация о заказе' onClose={() => {}}>
+              <Modal
+                title='Информация о заказе'
+                onClose={() => {
+                  history.back();
+                }}
+              >
                 <OrderInfo />
               </Modal>
             }
@@ -96,7 +101,12 @@ const App = () => {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title='Информация о добавленном ингредиенте' onClose={() => {}}>
+              <Modal
+                title='Информация о добавленном ингредиенте'
+                onClose={() => {
+                  history.back();
+                }}
+              >
                 <IngredientDetails />
               </Modal>
             }
@@ -105,7 +115,12 @@ const App = () => {
             path='/profile/orders/:number'
             element={
               <ProtectedRoute>
-                <Modal title='Информация о заказе' onClose={() => {}}>
+                <Modal
+                  title='Информация о заказе'
+                  onClose={() => {
+                    history.back();
+                  }}
+                >
                   <OrderInfo />
                 </Modal>
               </ProtectedRoute>
