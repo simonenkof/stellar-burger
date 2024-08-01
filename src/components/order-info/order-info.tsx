@@ -2,20 +2,27 @@ import { FC, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
+import { useSelector } from '../../services/store';
+import { selectOrders } from '../../services/slices/feedSlice';
+import { selectMenuIngredients } from '../../services/slices/consturctorBurgerSlice';
+import { useParams } from 'react-router-dom';
 
 export const OrderInfo: FC = () => {
-  /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  };
+  const params = useParams();
+  const orders = useSelector(selectOrders);
+  const allIngredients = useSelector(selectMenuIngredients);
+  const orderData = useMemo(
+    () => orders.find((order) => order.number === Number(params.number)),
+    [orders, params.number]
+  );
 
-  const ingredients: TIngredient[] = [];
+  const ingredients = useMemo(() => {
+    if (!orderData) return [];
+
+    return orderData.ingredients.map((ingredientId) =>
+      allIngredients.find((ingredient) => ingredient._id === ingredientId)
+    );
+  }, [orderData, allIngredients]);
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
@@ -29,7 +36,7 @@ export const OrderInfo: FC = () => {
 
     const ingredientsInfo = orderData.ingredients.reduce((acc: TIngredientsWithCount, item) => {
       if (!acc[item]) {
-        const ingredient = ingredients.find((ing) => ing._id === item);
+        const ingredient = ingredients.find((ing) => ing?._id === item);
         if (ingredient) {
           acc[item] = {
             ...ingredient,
