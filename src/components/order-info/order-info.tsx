@@ -4,12 +4,13 @@ import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useSelector } from '../../services/store';
 import { selectOrders } from '../../services/slices/feedSlice';
+import { selectOrders as selectProfileOrders } from '../../services/slices/ordersSlice';
 import { selectMenuIngredients } from '../../services/slices/consturctorBurgerSlice';
 import { useParams } from 'react-router-dom';
 
 export const OrderInfo: FC = () => {
   const params = useParams();
-  const orders = useSelector(selectOrders);
+  const orders = useSelector(selectOrders).concat(useSelector(selectProfileOrders));
   const allIngredients = useSelector(selectMenuIngredients);
   const orderData = useMemo(
     () => orders.find((order) => order.number === Number(params.number)),
