@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import '../../index.css';
 import styles from './app.module.css';
 import { AppHeader } from '@components';
@@ -23,6 +23,8 @@ import { getIngredients } from '../../../src/services/slices/consturctorBurgerSl
 
 const App = () => {
   const dispatch = useDispatch();
+  let location = useLocation();
+  let background = location.state && location.state.background;
 
   useEffect(() => {
     getCookie('accessToken') && dispatch(getUser());
@@ -30,59 +32,75 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <Router>
-      <div className={styles.app}>
-        <AppHeader />
+    <div className={styles.app}>
+      <AppHeader />
+      <Routes location={background || location}>
+        <Route path='*' element={<NotFound404 />} />
+        <Route path='/' element={<ConstructorPage />} />
+        <Route path='/feed' element={<Feed />} />
+        <Route
+          path='/login'
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <Login />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/register'
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <Register />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/forgot-password'
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <ForgotPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/reset-password'
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <ResetPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/profile'
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/profile/orders'
+          element={
+            <ProtectedRoute>
+              <ProfileOrders />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+
+      {background && (
         <Routes>
-          <Route path='*' element={<NotFound404 />} />
-          <Route path='/' element={<ConstructorPage />} />
-          <Route path='/feed' element={<Feed />} />
           <Route
-            path='/login'
+            path='/ingredients/:id'
             element={
-              <ProtectedRoute onlyUnAuth>
-                <Login />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/register'
-            element={
-              <ProtectedRoute onlyUnAuth>
-                <Register />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/forgot-password'
-            element={
-              <ProtectedRoute onlyUnAuth>
-                <ForgotPassword />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/reset-password'
-            element={
-              <ProtectedRoute onlyUnAuth>
-                <ResetPassword />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/profile'
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/profile/orders'
-            element={
-              <ProtectedRoute>
-                <ProfileOrders />
-              </ProtectedRoute>
+              <Modal
+                title='Информация о добавленном ингредиенте'
+                onClose={() => {
+                  history.back();
+                }}
+              >
+                <IngredientDetails />
+              </Modal>
             }
           />
           <Route
@@ -95,19 +113,6 @@ const App = () => {
                 }}
               >
                 <OrderInfo />
-              </Modal>
-            }
-          />
-          <Route
-            path='/ingredients/:id'
-            element={
-              <Modal
-                title='Информация о добавленном ингредиенте'
-                onClose={() => {
-                  history.back();
-                }}
-              >
-                <IngredientDetails />
               </Modal>
             }
           />
@@ -127,8 +132,8 @@ const App = () => {
             }
           />
         </Routes>
-      </div>
-    </Router>
+      )}
+    </div>
   );
 };
 
