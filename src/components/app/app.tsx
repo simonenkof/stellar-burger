@@ -14,7 +14,7 @@ import { NotFound404 } from '../../pages/not-fount-404';
 import { OrderInfo } from '../../components/order-info';
 import { IngredientDetails } from '../../components/ingredient-details';
 import { Modal } from '../../components/modal';
-import { ProtectedRoute } from '../../components/protected-route';
+import { ProtectedRoute } from '../../components/protected-route/protected-route';
 import { useEffect } from 'react';
 import { useDispatch } from '../../../src/services/store';
 import { getUser } from '../../../src/services/slices/userSlice';
