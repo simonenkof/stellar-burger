@@ -6,7 +6,7 @@ import { useSelector } from '../../services/store';
 import { selectConstructorItems } from '../../services/slices/consturctorBurgerSlice';
 
 export const IngredientsCategory = forwardRef<HTMLUListElement, TIngredientsCategoryProps>(
-  ({ title, titleRef, ingredients }, ref) => {
+  ({ title, titleRef, ingredients, ...rest }, ref) => {
     const burgerConstructor = useSelector(selectConstructorItems);
 
     const ingredientsCounters = useMemo(() => {
@@ -27,6 +27,7 @@ export const IngredientsCategory = forwardRef<HTMLUListElement, TIngredientsCate
         ingredients={ingredients}
         ingredientsCounters={ingredientsCounters}
         ref={ref}
+        {...rest}
       />
     );
   }
