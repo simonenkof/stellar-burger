@@ -30,6 +30,8 @@ describe('Конструктор бургера', () => {
     const modal = cy.get(`[data-cy=modal]`);
     modal.should('be.visible');
 
+    modal.contains('Краторная булка N-200i').should('exist');
+
     cy.get(`[data-cy=modal-close]`).click();
     modal.should('not.exist');
   });
